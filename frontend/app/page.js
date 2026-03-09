@@ -33,7 +33,7 @@ export default function Home() {
 
     try {
       const uploadResponse = await axios.post(
-        "http://127.0.0.1:8000/upload-with-progress",
+        "https://super-duper-broccoli-1.onrender.com/upload-with-progress",
         formData,
         {
           headers: {
@@ -47,7 +47,7 @@ export default function Home() {
       const interval = setInterval(async () => {
         try {
           const statusResponse = await axios.get(
-            `http://127.0.0.1:8000/job-status/${jobId}`
+            `https://super-duper-broccoli-1.onrender.com/job-status/${jobId}`
           );
 
           const job = statusResponse.data;

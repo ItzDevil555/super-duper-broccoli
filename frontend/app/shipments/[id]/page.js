@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
+const API = "https://super-duper-broccoli-1.onrender.com";
+
 export default function ShipmentDetails() {
   const params = useParams();
   const shipmentId = params?.id;
@@ -17,7 +19,8 @@ export default function ShipmentDetails() {
     const fetchShipment = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://127.0.0.1:8000/shipments/${shipmentId}`);
+
+        const res = await fetch(`${API}/shipments/${shipmentId}`);
 
         if (!res.ok) {
           throw new Error(`Failed to fetch shipment: ${res.status}`);
@@ -38,19 +41,35 @@ export default function ShipmentDetails() {
   }, [shipmentId]);
 
   if (!shipmentId) {
-    return <div className="p-10 text-white bg-slate-950 min-h-screen">Loading shipment id...</div>;
+    return (
+      <div className="p-10 text-white bg-slate-950 min-h-screen">
+        Loading shipment id...
+      </div>
+    );
   }
 
   if (loading) {
-    return <div className="p-10 text-white bg-slate-950 min-h-screen">Loading...</div>;
+    return (
+      <div className="p-10 text-white bg-slate-950 min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="p-10 text-red-400 bg-slate-950 min-h-screen">Error: {error}</div>;
+    return (
+      <div className="p-10 text-red-400 bg-slate-950 min-h-screen">
+        Error: {error}
+      </div>
+    );
   }
 
   if (!shipmentData || !shipmentData.shipment || !shipmentData.items) {
-    return <div className="p-10 text-red-400 bg-slate-950 min-h-screen">Invalid shipment data</div>;
+    return (
+      <div className="p-10 text-red-400 bg-slate-950 min-h-screen">
+        Invalid shipment data
+      </div>
+    );
   }
 
   const { shipment, items } = shipmentData;
@@ -68,21 +87,33 @@ export default function ShipmentDetails() {
         <p><strong>Total Items:</strong> {items.length}</p>
       </div>
 
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 flex-wrap">
         <a
-          href={`http://127.0.0.1:8000/shipments/${shipment.id}/export/excel`}
+          href={`${API}/shipments/${shipment.id}/export/excel`}
           className="bg-green-600 px-4 py-2 rounded"
+          target="_blank"
+          rel="noreferrer"
         >
           Export Excel
         </a>
 
-        <button className="bg-blue-600 px-4 py-2 rounded">
+        <a
+          href={`${API}/shipments/${shipment.id}/export/combined`}
+          className="bg-blue-600 px-4 py-2 rounded"
+          target="_blank"
+          rel="noreferrer"
+        >
           Export Combined
-        </button>
+        </a>
 
-        <button className="bg-yellow-500 px-4 py-2 rounded text-black">
+        <a
+          href={`${API}/shipments/${shipment.id}/export/saudi`}
+          className="bg-yellow-500 px-4 py-2 rounded text-black"
+          target="_blank"
+          rel="noreferrer"
+        >
           Export Saudi Format
-        </button>
+        </a>
       </div>
 
       <div className="overflow-auto bg-slate-900 rounded">
